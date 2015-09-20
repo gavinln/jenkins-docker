@@ -1,0 +1,6 @@
+*~
+*.pyc
+*.class
+*.swp
+.vagrant
+jenkins/jenkins-cli.jar

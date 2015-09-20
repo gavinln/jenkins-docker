@@ -1,0 +1,97 @@
+To get the version of mesos type
+1. mesos-master --version
+
+To manage ZooKeeper do the following
+1. Check id of zookeeper
+cat /var/lib/zookeeper/myid
+
+1. Start ZooKeeper (make sure that /etc/mesos/zk has zk://localhost:2181/mesos)
+sudo start zookeeper
+
+2. Find status of ZooKeeper
+sudo status zookeeper
+
+3. Change to the ZooKeeper directory
+cd /usr/share/zookeeper/bin
+
+4. Test by connection to ZooKeeper (type quit to exit)
+sudo ./zkCli.sh -server localhost:2181
+
+5. If you have connected to the server the output will contain:
+WatchedEvent state:SyncConnected type:None path:null
+
+To manage Marathon
+1. Set the ZooKeeper url by adding line zk://localhost:2181/mesos to the file
+sudo vi /etc/mesos/zk
+
+2. Start Marathon
+sudo start marathon
+
+./start --master zk://192.168.0.149:2181/mesos --zk zk://192.168.0.149:2181/marathon
+
+3. Find the status of Marathon
+sudo status marathon
+
+Setup the Flask app
+1. Go to the Marathon dashboard
+http://localhost:8080
+
+2. Create a new app by clicking on the "New App" button
+
+3. Enter the ID as flask-env
+
+4. Enter the command all on one line (blank lines may cause problems)
+/usr/bin/python /vagrant/python/flask_env/run.py
+
+5. Click "Create"
+
+Setup IPython
+1. Install pyzmq
+sudo apt-get install python-zmq
+
+2. Install tornado
+sudo pip install tornado
+
+3. Install ipython
+sudo pip install ipython
+
+4. Go to the Marathon dashboard
+http://localhost:8080
+
+5. Create a new app by clicking on the "New App" button
+
+6. Enter the ID as ipython1
+
+7. Enter the command all on one line (blank lines may cause problems)
+/usr/local/bin/ipython notebook --no-browser --ip=0.0.0.0 --port=$PORT
+
+8. Click "Create"
+
+Setup haproxy
+See https://mesosphere.github.io/marathon/docs/service-discovery-load-balancing.html
+1. Install haproxy
+sudo apt-get install haproxy
+
+Get script to setup haproxy.cfg
+https://raw.githubusercontent.com/mesosphere/marathon/master/bin/haproxy-marathon-bridge
+
+./haproxy-marathon-bridge 192.168.33.10:8080 > haproxy.cfg
+
+haproxy -f haproxy.cfg -p haproxy.pid -sf $(cat haproxy.pid)
+
+Setup Jenkins, Mesos, Docker
+PROJECT_NAME=Homepage
+PROJECT_NAME=login
+PROJECT_NAME=fe-styleguide
+
+git clone http://git-prd-01/spa-development/$PROJECT_NAME.git
+cd $PROJECT_NAME/
+npm update -g npm # npm -version changes from 1.4.28 to 2.8.4
+npm cache clean
+npm install
+npm install -g bower
+git config --global url."https://".insteadOf git://
+bower install --config.interactive=false --allow-root
+npm install -g gulp
+gulp jshint
+
