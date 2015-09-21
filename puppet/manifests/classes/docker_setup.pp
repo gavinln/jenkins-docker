@@ -12,18 +12,18 @@ class docker_setup {
       command => "usermod -aG docker vagrant",
       require => [User['vagrant'], Class['docker']]
     }
-    docker::image { 'python:2.7.10':
-        ensure => 'present',
-        require => Class[docker]
-    }
-    docker::image { 'ruby:2.0.0':
-        ensure => 'present',
-        require => Class[docker]
-    }
-    docker::image { 'haskell:7.10.1':
-        ensure => 'present',
-        require => Class[docker]
-    }
+#    docker::image { 'python:2.7.10':
+#        ensure => 'present',
+#        require => Class[docker]
+#    }
+#    docker::image { 'ruby:2.0.0':
+#        ensure => 'present',
+#        require => Class[docker]
+#    }
+#    docker::image { 'haskell:7.10.1':
+#        ensure => 'present',
+#        require => Class[docker]
+#    }
     docker::image { 'golang:1.3.3':
         ensure => 'present',
         require => Class[docker]
